@@ -1,10 +1,27 @@
-name: Example workflow for Gradle using Snyk
-on: push
+name: Synk POC
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - synk_poc
+
 jobs:
   security:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle@master
         env:
